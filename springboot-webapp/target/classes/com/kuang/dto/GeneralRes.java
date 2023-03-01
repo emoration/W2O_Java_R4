@@ -1,4 +1,4 @@
-package com.kuang.dto.response;
+package com.kuang.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

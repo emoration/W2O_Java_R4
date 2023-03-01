@@ -3,13 +3,13 @@ package com.kuang.controller;
 import com.kuang.dto.login.LoginReq;
 import com.kuang.dto.login.LoginResData;
 import com.kuang.dto.register.RegisterReq;
-import com.kuang.dto.response.GeneralRes;
+import com.kuang.dto.GeneralRes;
 import com.kuang.dto.register.RegisterResData;
 import com.kuang.pojo.User;
 import com.kuang.service.UserService;
-import com.kuang.utils.Secret;
-import com.kuang.utils.Token;
-import org.apache.ibatis.annotations.Mapper;
+import com.kuang.util.JasyptUtils;
+import com.kuang.util.JwtUtil;
+import com.kuang.util.Secret;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class UserController {
             return res;
         }
 
-        userService.addUser(new User(0, username, Secret.makeSecret(password)));
+        userService.addUser(new User(0, username, JasyptUtils.encrypt(password)));
 
         User user = userService.queryUserByName(username);
 
@@ -77,13 +77,14 @@ public class UserController {
             res.setError("userNoExist");
             return res;
         }
-        if (!Secret.checkSecret(password,user.getPassword())) {
+        if (!JasyptUtils.checkCrypt(password,user.getPassword())) {
             System.err.println("passwordNoCorrect");
             res.setError("passwordNoCorrect");
             return res;
         }
 
-        res.setData(new LoginResData(user.getId(), user.getUsername(),Token.makeToken(username)));
+//        res.setData(new LoginResData(user.getId(), user.getUsername(),Token.makeToken(username)));
+        res.setData(new LoginResData(user.getId(), user.getUsername(), JwtUtil.sign(user.getId(),user.getUsername())));
 
         return res;
     }

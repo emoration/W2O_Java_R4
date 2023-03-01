@@ -1,20 +1,27 @@
 package com.kuang.service;
 
-import com.kuang.dto.response.GetHistoryRes;
+import com.kuang.dto.history.GetHistoryResData;
+import com.kuang.dto.history.History;
+import com.kuang.exception.SqlException;
 import com.kuang.pojo.Record;
 
 import java.util.List;
 
 public interface RecordService {
-    int addRecord(Record record);
+    int addRecord(Record record)throws SqlException;
 
-    int deleteRecordById(int id);
+    int deleteRecordById(int id)throws SqlException;
 
-    int deleteRecordByIdList(List<Integer>idList);
-    List<Record> queryRecordByUserId(int userId);
-    GetHistoryRes queryRecordSongByUserIdWithPage(int userId, int page, int pageSize);
+    int updateRecordById(int id, int fav)throws SqlException;
 
-    Record queryRecordById(int id);
+    Record queryRecordById(int id)throws SqlException;
+    List<Record> queryRecordByUserId(int userId)throws SqlException;
+    Record queryRecordByUserIdAndSongId(int userId, int songId)throws SqlException;
+    List<History> queryRecordByUserIdWithPage(int userId, int pageStart, int pageSize)throws SqlException;
+    Integer queryCountByUserId(int userId)throws SqlException;
 
-    int updateRecordById(int id,int fav);
+    int deleteRecordByIdList(List<Integer>idList)throws SqlException;
+    GetHistoryResData queryRecordSongByUserIdWithPageAndCount(int userId, int page, int pageSize)throws SqlException;
+
+
 }

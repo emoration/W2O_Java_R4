@@ -2,7 +2,7 @@ package com.kuang.service;
 
 import com.kuang.mapper.SongMapper;
 import com.kuang.pojo.Song;
-import com.kuang.utils.KuwoAPI;
+import com.kuang.util.KuwoAPI;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

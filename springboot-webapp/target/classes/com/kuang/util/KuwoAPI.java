@@ -1,4 +1,4 @@
-package com.kuang.utils;
+package com.kuang.util;
 
 import com.kuang.pojo.Song;
 import org.springframework.core.ParameterizedTypeReference;

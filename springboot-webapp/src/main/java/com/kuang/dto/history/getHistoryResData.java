@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class getHistoryResData {
+public class GetHistoryResData {
     List<History> list;
     int count;
 }

@@ -11,7 +11,9 @@ import java.util.List;
 public interface SongMapper {
     int addSong(Song song);
     int addSongIgnore(Song song);
+
     int deleteSongById(int id);
+
     Song querySongById(int id);
     Song querySongByRid(int rid);
     List<Song> querySongListByName(String name);

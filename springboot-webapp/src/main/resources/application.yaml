@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 
 server:
-  port: 8000
+  port: 8001
 
 
 mybatis:
@@ -17,3 +17,12 @@ mybatis:
   mapper-locations: classpath:com/kuang/mapper/xml/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+jasypt:
+  encryptor:
+    # 指定加密密钥，生产环境请放到启动参数里面
+    password: secret
+    # 指定解密算法，需要和加密时使用的算法一致
+    algorithm: PBEWithMD5AndDES
+    # 指定initialization vector类型
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator

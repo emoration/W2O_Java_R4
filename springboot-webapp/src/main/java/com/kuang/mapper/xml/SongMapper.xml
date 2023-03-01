@@ -12,6 +12,7 @@
         <result property="album" column="album"/>
         <result property="rid" column="rid"/>
     </resultMap>
+
     <insert id="addSong" parameterType="Song">
         insert into song (name, artist, album, duration, rid)
         values (#{name}, #{artist}, #{album}, #{duration}, #{rid})
@@ -20,11 +21,13 @@
         insert ignore into song (name, artist, album, duration, rid)
         values (#{name}, #{artist}, #{album}, #{duration}, #{rid})
     </insert>
+
     <delete id="deleteSongById">
         delete
         from song
         where id = #{id}
     </delete>
+
     <select id="querySongById" resultMap="SongMap">
         select *
         from song

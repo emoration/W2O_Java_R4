@@ -1,4 +1,4 @@
-package com.kuang.utils;
+package com.kuang.util;
 
 public class Secret {
     public static String makeSecret(String password) {

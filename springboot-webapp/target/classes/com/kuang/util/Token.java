@@ -1,4 +1,4 @@
-package com.kuang.utils;
+package com.kuang.util;
 
 public class Token {
     public static String makeToken(String username) {
