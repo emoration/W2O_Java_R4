@@ -1,12 +1,13 @@
 package com.kuang.controller;
 
+import com.kuang.config.MyConfig;
 import com.kuang.dto.GeneralRes;
+import com.kuang.exception.KuwoApiException;
 import com.kuang.exception.SqlException;
 import com.kuang.pojo.Record;
 import com.kuang.pojo.Song;
 import com.kuang.service.RecordService;
 import com.kuang.service.SongService;
-import com.kuang.service.UserService;
 import com.kuang.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,13 +36,29 @@ public class SongController {
     @Qualifier("recordServiceImpl")
     private RecordService recordService;
 
+    @Autowired
+    private MyConfig myConfig;
+
     @RequestMapping("search")
     @ResponseBody
     public GeneralRes search(@RequestParam("text") String text, @RequestHeader("Authorization") String token) {
-        List<Song> songList = songService.querySongListByNameFromApi(text);
-        Map<String, Object> data = new HashMap<>();
-        data.put("list", songList);
-        return GeneralRes.GoodRes200(data);
+        try {
+            List<Song> songList;
+            if (myConfig.isSearchFromTrueKuwoApiOrFalseDatabase()) {
+                songList = songService.querySongListByNameFromApi(text);
+                if(myConfig.isAddApiSearchResultToDatabase()) {
+                    songService.addSongListIgnore(songList);
+                }
+            } else {
+                songList = songService.querySongListByNameFromDatabase(text);
+            }
+            Map<String, Object> data = new HashMap<>();
+            data.put("list", songList);
+            return GeneralRes.GoodRes200(data);
+        } catch (SqlException | KuwoApiException e) {
+            e.printStackTrace();
+            return GeneralRes.BackendErrorRes500(e.getMessage(), e.getMessage());
+        }
     }
 
     @GetMapping("/search/download/{rid}")

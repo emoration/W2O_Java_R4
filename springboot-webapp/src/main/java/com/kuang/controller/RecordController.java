@@ -1,5 +1,6 @@
 package com.kuang.controller;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.kuang.constant.QueryParm;
 import com.kuang.dto.history.GetHistoryResData;
 import com.kuang.dto.history.PutHistoryReq;
@@ -34,21 +35,34 @@ public class RecordController {
 
     @GetMapping("user/history")
     @ResponseBody
-    public GeneralRes getHistory(@RequestParam int page, @RequestHeader("Authorization") String token) throws SqlException {
-        int userId = JwtUtil.getUserId(token);
-        GetHistoryResData getHistoryResData = recordService.queryRecordSongByUserIdWithPageAndCount(userId, page, QueryParm.PAGE_SIZE);
-        return GeneralRes.GoodRes200(getHistoryResData);
+    public GeneralRes getHistory(@RequestParam int page, @RequestHeader("Authorization") String token) {
+        try {
+            int userId = JwtUtil.getUserId(token);
+            GetHistoryResData getHistoryResData = recordService.queryRecordSongByUserIdWithPageAndCount(userId, page, QueryParm.PAGE_SIZE);
+            return GeneralRes.GoodRes200(getHistoryResData);
+        } catch (JWTDecodeException e) {
+            e.printStackTrace();
+            return GeneralRes.BackendErrorRes500("util jwt error", "util jwt error");
+        } catch (SqlException e) {
+            e.printStackTrace();
+            return GeneralRes.BackendErrorRes500(e.getMessage(), e.getMessage());
+        }
     }
 
     @DeleteMapping("user/history")
     @ResponseBody
-    public GeneralRes deleteHistory(@RequestBody DeleteHistoryReq deleteHistoryReq, @RequestHeader("Authorization") String token) throws SqlException {
-        if (deleteHistoryReq.getType() == 0) {
-            recordService.deleteRecordById(deleteHistoryReq.getId());
-        } else {
-            recordService.deleteRecordByIdList(deleteHistoryReq.getList());
+    public GeneralRes deleteHistory(@RequestBody DeleteHistoryReq deleteHistoryReq, @RequestHeader("Authorization") String token) {
+        try {
+            if (deleteHistoryReq.getType() == 0) {
+                recordService.deleteRecordById(deleteHistoryReq.getId());
+            } else {
+                recordService.deleteRecordByIdList(deleteHistoryReq.getList());
+            }
+            return GeneralRes.GoodRes200(null);
+        } catch (SqlException e) {
+            e.printStackTrace();
+            return GeneralRes.BackendErrorRes500(e.getMessage(), e.getMessage());
         }
-        return GeneralRes.GoodRes200(null);
     }
 
     @PutMapping("user/history/lc")
@@ -56,9 +70,14 @@ public class RecordController {
     public GeneralRes putHistory(@RequestBody PutHistoryReq putHistoryReq, @RequestHeader("Authorization") String token) throws SqlException {
         int id = putHistoryReq.getId();
         int fav = putHistoryReq.getFav();
-        recordService.updateRecordById(id, fav);
-        Record record = recordService.queryRecordById(id);
-        Song song = songService.querySongById(record.getSongId());
-        return GeneralRes.GoodRes200(song);
+        try {
+            recordService.updateRecordById(id, fav);
+            Record record = recordService.queryRecordById(id);
+            Song song = songService.querySongById(record.getSongId());
+            return GeneralRes.GoodRes200(song);
+        } catch (SqlException e) {
+            e.printStackTrace();
+            return GeneralRes.BackendErrorRes500(e.getMessage(), e.getMessage());
+        }
     }
 }

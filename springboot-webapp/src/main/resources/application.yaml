@@ -1,3 +1,10 @@
+my:
+  config:
+    # 0:从酷我api搜索，1:从数据库搜索，尽量小写
+    searchFromTrueKuwoApiOrFalseDatabase: 0
+    # 酷我api搜索保存到数据库，0:不保存 1:保存
+    addApiSearchResultToDatabase: 1
+
 spring:
   datasource:
     username: root
@@ -8,7 +15,6 @@ spring:
 
 server:
   port: 8001
-
 
 mybatis:
   # 注意：对应实体类的路径

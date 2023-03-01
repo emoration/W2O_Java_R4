@@ -45,13 +45,9 @@ public class JwtUtil {
     /**
      * 根据token获取userId
      */
-    public static Integer getUserId(String token) {
-        try {
+    public static Integer getUserId(String token) throws JWTDecodeException {
             String userId = JWT.decode(token).getAudience().get(0);
             return Integer.parseInt(userId);
-        } catch (JWTDecodeException e) {
-            return null;
-        }
     }
 
     /**

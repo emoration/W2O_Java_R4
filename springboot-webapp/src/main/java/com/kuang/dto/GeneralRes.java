@@ -24,4 +24,8 @@ public class GeneralRes {
     public static GeneralRes UnauthorizedRes401(String message, String error) {
         return new GeneralRes(401, message, null, error);
     }
+
+    public static GeneralRes BackendErrorRes500(String message, String error) {
+        return new GeneralRes(500, message, null, error);
+    }
 }

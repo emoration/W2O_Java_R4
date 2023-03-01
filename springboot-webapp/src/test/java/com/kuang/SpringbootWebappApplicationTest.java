@@ -1,5 +1,6 @@
 package com.kuang;
 
+import com.kuang.exception.SqlException;
 import com.kuang.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ class SpringbootWebappApplicationTest {
     @Autowired
     UserServiceImpl userService;
     @Test
-    void doaTest() {
+    void doaTest() throws SqlException {
         System.err.println("test");
         System.err.println(userService.queryUserById(1));
     }

@@ -30,7 +30,7 @@ public class RecordServiceImpl implements RecordService {
         } catch (SqlException e) {
             return recordMapper.addRecord(record);
         }
-        throw new SqlException("add again");
+        throw new SqlException("add record existed");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RecordServiceImpl implements RecordService {
         try {
             queryRecordById(id);
         } catch (SqlException e) {
-            throw new SqlException("delete not found");
+            throw new SqlException("delete record not found");
         }
         return recordMapper.deleteRecordById(id);
     }
@@ -48,7 +48,7 @@ public class RecordServiceImpl implements RecordService {
         try {
             queryRecordById(id);
         } catch (SqlException e) {
-            throw new SqlException("update not found");
+            throw new SqlException("update record not found");
         }
         return recordMapper.updateRecordById(id, fav);
     }
@@ -57,7 +57,7 @@ public class RecordServiceImpl implements RecordService {
     public Record queryRecordById(int id) throws SqlException {
         Record record = recordMapper.queryRecordById(id);
         if (record == null) {
-            throw new SqlException("query no found");
+            throw new SqlException("query record no found");
         }
         return record;
     }
@@ -65,7 +65,7 @@ public class RecordServiceImpl implements RecordService {
     public List<Record> queryRecordByUserId(int userId) throws SqlException {
         List<Record> recordList = recordMapper.queryRecordByUserId(userId);
         if (recordList == null) {
-            throw new SqlException("query no found");
+            throw new SqlException("query record no found");
         }
         return recordList;
     }
@@ -73,7 +73,7 @@ public class RecordServiceImpl implements RecordService {
     public Record queryRecordByUserIdAndSongId(int userId, int songId) throws SqlException {
         Record record = recordMapper.queryRecordByUserIdAndSongId(userId, songId);
         if (record == null) {
-            throw new SqlException("query no found");
+            throw new SqlException("query record no found");
         }
         return record;
     }
@@ -81,7 +81,7 @@ public class RecordServiceImpl implements RecordService {
     public List<History> queryRecordByUserIdWithPage(int userId, int pageStart, int pageSize) throws SqlException {
         List<History> queryList = recordMapper.queryRecordByUserIdWithPage(userId, pageStart, pageSize);
         if (queryList == null) {
-            throw new SqlException("query no found");
+            throw new SqlException("query record no found");
         }
         return queryList;
     }
@@ -89,7 +89,7 @@ public class RecordServiceImpl implements RecordService {
     public Integer queryCountByUserId(int userId) throws SqlException {
         Integer count = recordMapper.queryCountByUserId(userId);
         if (count == null) {
-            throw new SqlException("query count no found");
+            throw new SqlException("query record count no found");
         }
         return count;
     }
