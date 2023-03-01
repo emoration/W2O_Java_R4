@@ -48,9 +48,9 @@ public class RecordServiceImpl implements RecordService {
         try {
             queryRecordById(id);
         } catch (SqlException e) {
-            return recordMapper.updateRecordById(id, fav);
+            throw new SqlException("update not found");
         }
-        throw new SqlException("update not found");
+        return recordMapper.updateRecordById(id, fav);
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.kuang.pojo.User;
 import com.kuang.service.UserService;
 import com.kuang.util.JasyptUtils;
 import com.kuang.util.JwtUtil;
-import com.kuang.util.Secret;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -34,7 +33,6 @@ public class UserController {
     @RequestMapping(value = "/user")
     @ResponseBody
     public GeneralRes register(@RequestBody RegisterReq registerReq) {
-        GeneralRes res = new GeneralRes(200, "success", null, "");
 //        sout
         System.err.println("register parm:" + registerReq);
         String username = registerReq.getUsername();
@@ -43,50 +41,41 @@ public class UserController {
 
         if (!password.equals(checkPassword)) {
             System.err.println("passwordNoEqual");
-            res.setError("passwordNoEqual");
-            return res;
+            return GeneralRes.BadRes403("passwordNoEqual","passwordNoEqual");
         }
         if (userService.queryUserByName(username) != null) {
             System.err.println("userExisted");
-            res.setError("userExisted");
-            return res;
+            return GeneralRes.BadRes403("userExisted","userExisted");
         }
 
         userService.addUser(new User(0, username, JasyptUtils.encrypt(password)));
-
         User user = userService.queryUserByName(username);
 
-        res.setData(new RegisterResData(user.getId(), user.getUsername()));
+        RegisterResData registerResData = new RegisterResData(user.getId(), user.getUsername());
 
-        return res;
+        return GeneralRes.GoodRes200(registerResData);
     }
 
     @RequestMapping(value="/user/login")
     @ResponseBody
     public GeneralRes login(@RequestBody LoginReq loginReq) {
-        GeneralRes res = new GeneralRes(200, "success", null, "");
 
-//        sout
-        System.err.println(loginReq);
         String username = loginReq.getUsername();
         String password = loginReq.getPassword();
 
         User user = userService.queryUserByName(username);
         if (user == null) {
             System.err.println("userNoExist");
-            res.setError("userNoExist");
-            return res;
+            return GeneralRes.BadRes403("userNoExist","userNoExist");
         }
         if (!JasyptUtils.checkCrypt(password,user.getPassword())) {
             System.err.println("passwordNoCorrect");
-            res.setError("passwordNoCorrect");
-            return res;
+            return GeneralRes.BadRes403("passwordNoCorrect","passwordNoCorrect");
         }
 
-//        res.setData(new LoginResData(user.getId(), user.getUsername(),Token.makeToken(username)));
-        res.setData(new LoginResData(user.getId(), user.getUsername(), JwtUtil.sign(user.getId(),user.getUsername())));
+        LoginResData loginResData = new LoginResData(user.getId(), user.getUsername(), JwtUtil.sign(user.getId(), user.getUsername()));
 
-        return res;
+        return GeneralRes.GoodRes200(loginResData);
     }
 
 }

@@ -12,4 +12,16 @@ public class GeneralRes {
     private String message;
     private Object data;
     private String error;
+
+    public static GeneralRes BadRes403(String message, String error) {
+        return new GeneralRes(403, message, null, error);
+    }
+
+    public static GeneralRes GoodRes200(Object data) {
+        return new GeneralRes(200, "success", data, "");
+    }
+
+    public static GeneralRes UnauthorizedRes401(String message, String error) {
+        return new GeneralRes(401, message, null, error);
+    }
 }

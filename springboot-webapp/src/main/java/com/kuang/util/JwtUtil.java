@@ -5,15 +5,15 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.springframework.lang.NonNull;
 
 import java.util.Date;
-import java.util.Map;
 
 public class JwtUtil {
     /**
-     * 过期5分钟
+     * 过期5小时
      */
-    private static final long EXPIRE_TIME = 5 * 60 * 1000;
+    private static final long EXPIRE_TIME = 300 * 60 * 1000;
 
     /**
      * jwt密钥
@@ -21,12 +21,8 @@ public class JwtUtil {
     private static final String SECRET = "jwt_secret";
 
     /**
-     * 生成jwt字符串，五分钟后过期  JWT(json web token)
-     *
-     * @param userId //     * @param info,Map的value只能存放值的类型为：Map，List，Boolean，Integer，Long，Double，String and Date
-     * @return
+     * 生成jwt字符串，五小时后过期  JWT(json web token)
      */
-//    public static String sign(String userId, Map<String, Object> info) {
     public static String sign(Integer userId, String username) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
@@ -35,8 +31,8 @@ public class JwtUtil {
                     //将userId保存到token里面
                     .withAudience(Integer.toString(userId), username)
 //                    //存放自定义数据
-//                    .withClaim("info", info)
-                    //五分钟后token过期
+//                    .withClaim("info", info)// Map<String, Object> info
+                    //五小时后token过期
                     .withExpiresAt(date)
                     //token的密钥
                     .sign(algorithm);
@@ -48,9 +44,6 @@ public class JwtUtil {
 
     /**
      * 根据token获取userId
-     *
-     * @param token
-     * @return
      */
     public static Integer getUserId(String token) {
         try {
@@ -63,9 +56,6 @@ public class JwtUtil {
 
     /**
      * 根据token获取自定义数据info
-     *
-     * @param token
-     * @return
      */
     public static String getUsername(String token) {
         try {
@@ -74,6 +64,8 @@ public class JwtUtil {
             return null;
         }
     }
+
+// 也可以装map
 
 //    /**
 //     * 根据token获取自定义数据info
@@ -90,9 +82,6 @@ public class JwtUtil {
 
     /**
      * 校验token
-     *
-     * @param token
-     * @return
      */
     public static boolean checkSign(String token) {
         try {
@@ -103,7 +92,7 @@ public class JwtUtil {
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException e) {
-            throw new RuntimeException("token 无效，请重新获取");
+            return false;
         }
     }
 }

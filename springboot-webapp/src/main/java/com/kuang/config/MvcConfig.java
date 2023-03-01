@@ -16,17 +16,19 @@ public class MvcConfig implements WebMvcConfigurer {
 
     /**
      * 添加jwt拦截器，并指定拦截路径
-     * */
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("*/**")
-                .excludePathPatterns("/user","/user/login");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/user", "/user/login")
+        ;
     }
 
     /**
      * jwt拦截器
-     * */
+     */
     @Bean
     public JwtInterceptor jwtInterceptor() {
         return new JwtInterceptor();
