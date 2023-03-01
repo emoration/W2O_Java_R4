@@ -12,8 +12,8 @@ public interface SongService {
 
     int deleteSongById(int id)throws SqlException;
 
-    Song querySongById(int id)throws SqlException;
-    Song querySongByRid(int rid)throws SqlException;
+    Song querySongById(int id);
+    Song querySongByRid(int rid);
 
     List<Song> querySongListByName(String name)throws SqlException;
 

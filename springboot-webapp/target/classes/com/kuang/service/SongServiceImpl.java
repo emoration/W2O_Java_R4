@@ -34,37 +34,27 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public int deleteSongById(int id) throws SqlException {
-        try {
-            querySongById(id);
-        } catch (SqlException e) {
+        if (querySongById(id) == null) {
             throw new SqlException("delete song not found");
         }
         return songMapper.deleteSongById(id);
     }
 
     @Override
-    public Song querySongById(int id) throws SqlException {
-        Song song = songMapper.querySongById(id);
-        if (song == null) {
-            throw new SqlException("query song not found");
-        }
-        return song;
+    public Song querySongById(int id) {
+        return songMapper.querySongById(id);
     }
 
     @Override
-    public Song querySongByRid(int rid) throws SqlException {
-        Song song = songMapper.querySongByRid(rid);
-        if (song == null) {
-            throw new SqlException("query song not found");
-        }
-        return song;
+    public Song querySongByRid(int rid) {
+        return songMapper.querySongByRid(rid);
     }
 
     @Override
     public List<Song> querySongListByName(String name) throws SqlException {
         List<Song> songList = songMapper.querySongListByName(name);
         if (songList == null) {
-            throw new SqlException("query song list not found");
+            throw new SqlException("query song list null");
         }
         return songList;
     }

@@ -8,15 +8,34 @@ public class MyConfig {
     @Value("${my.config.searchFromTrueKuwoApiOrFalseDatabase}")
     private int searchFromTrueKuwoApiOrFalseDatabase = 0;
 
+
+    public boolean isSearchFromTrueKuwoApiOrFalseDatabase() {
+        return searchFromTrueKuwoApiOrFalseDatabase == 0;
+    }
+
     @Value("${my.config.addApiSearchResultToDatabase}")
     private int addApiSearchResultToDatabase = 1;
 
-    public boolean isSearchFromTrueKuwoApiOrFalseDatabase() {
-        System.err.println("searchFromTrueKuwoApiOrFalseDatabase:" + searchFromTrueKuwoApiOrFalseDatabase);
-        return searchFromTrueKuwoApiOrFalseDatabase == 0;
-    }
     public boolean isAddApiSearchResultToDatabase() {
         return addApiSearchResultToDatabase == 1;
     }
+
+    @Value("${my.config.downloadSongAddress}")
+    private String downloadSongAddress = "";
+
+    public String getDownloadSongAddress() {
+        if ("".equals(downloadSongAddress)) {
+            return System.getProperty("user.dir") + "\\songs\\";
+        }
+        return downloadSongAddress;
+    }
+
+    @Value("${my.config.generateSongFile}")
+    private int generateSongFile = 1;
+
+    public boolean isGenerateSongFile() {
+        return generateSongFile == 1;
+    }
+
 
 }

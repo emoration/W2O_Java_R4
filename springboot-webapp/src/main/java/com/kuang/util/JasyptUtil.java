@@ -44,7 +44,7 @@ public final class JasyptUtil {
      * @return String
      */
     public static String decrypt(String ciphertext) {
-        log.info("密文字符串为：{}", ciphertext);
+//        log.info("密文字符串为：{}", ciphertext);
         ciphertext = "ENC(" + ciphertext + ")";
         if (PropertyValueEncryptionUtils.isEncryptedValue(ciphertext)) {
             String plaintext = PropertyValueEncryptionUtils.decrypt(ciphertext, basicTextEncryptor);

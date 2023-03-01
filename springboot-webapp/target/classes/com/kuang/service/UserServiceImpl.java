@@ -20,29 +20,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addUser(User user) throws SqlException {
-        try {
-            queryUserByName(user.getUsername());
-        } catch (SqlException e) {
-            return userMapper.addUser(user);
+        if (queryUserByName(user.getUsername()) != null) {
+            throw new SqlException("add user existed");
         }
-        throw new SqlException("add user existed");
+        return userMapper.addUser(user);
     }
 
     @Override
-    public User queryUserById(int id) throws SqlException {
-        User user = userMapper.queryUserById(id);
-        if (user == null) {
-            throw new SqlException("query user not found");
-        }
-        return user;
+    public User queryUserById(int id) {
+        return userMapper.queryUserById(id);
     }
 
     @Override
-    public User queryUserByName(String username) throws SqlException {
-        User user = userMapper.queryUserByName(username);
-        if (user == null) {
-            throw new SqlException("query user not found");
-        }
-        return user;
+    public User queryUserByName(String username) {
+        return userMapper.queryUserByName(username);
     }
 }

@@ -14,11 +14,13 @@ public interface RecordService {
 
     int updateRecordById(int id, int fav)throws SqlException;
 
-    Record queryRecordById(int id)throws SqlException;
+    Record queryRecordById(int id);
     List<Record> queryRecordByUserId(int userId)throws SqlException;
-    Record queryRecordByUserIdAndSongId(int userId, int songId)throws SqlException;
+    Record queryRecordByUserIdAndSongId(int userId, int songId);
     List<History> queryRecordByUserIdWithPage(int userId, int pageStart, int pageSize)throws SqlException;
     Integer queryCountByUserId(int userId)throws SqlException;
+
+    int addRecordIgnore(Record record);
 
     int deleteRecordByIdList(List<Integer>idList)throws SqlException;
     GetHistoryResData queryRecordSongByUserIdWithPageAndCount(int userId, int page, int pageSize)throws SqlException;
