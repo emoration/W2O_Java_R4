@@ -51,7 +51,7 @@ public class JwtUtil {
     }
 
     /**
-     * 根据token获取自定义数据info
+     * 根据token获取自定义数据username
      */
     public static String getUsername(String token) {
         try {

@@ -10,7 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+/**
+ * 用于拦截请求，验证token
+ */
 public class JwtInterceptor implements HandlerInterceptor {
+    /**
+     * 验证token
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 如果不是映射到方法直接通过
@@ -20,13 +26,13 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         // judge whether token is null
         if (token == null) {
-            String json = JSONObject.toJSONString(GeneralRes.UnauthorizedRes401("No token, please login","TokenNotFound"));
+            String json = JSONObject.toJSONString(GeneralRes.UnauthorizedRes401("No token, please login", "TokenNotFound"));
             returnJson(response, json);
             return false;
         }
         // check token whether valid
         if (!JwtUtil.checkSign(token)) {
-            String json = JSONObject.toJSONString(GeneralRes.UnauthorizedRes401("The token is invalid or expired, please login again","TokenError"));
+            String json = JSONObject.toJSONString(GeneralRes.UnauthorizedRes401("The token is invalid or expired, please login again", "TokenError"));
             returnJson(response, json);
             return false;
         }

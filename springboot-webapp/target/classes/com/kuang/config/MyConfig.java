@@ -3,6 +3,9 @@ package com.kuang.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * 自定义的配置，可以在application.yml中修改
+ */
 @Component
 public class MyConfig {
     @Value("${my.config.searchFromTrueKuwoApiOrFalseDatabase}")
@@ -38,4 +41,10 @@ public class MyConfig {
     }
 
 
+    @Value("${my.config.recordNumberPerPage}")
+    private int recordNumberPerPage = 10;
+
+    public int getRecordNumberPerPage() {
+        return recordNumberPerPage == 0 ? 10 : recordNumberPerPage;
+    }
 }

@@ -1,7 +1,7 @@
 package com.kuang.controller;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.kuang.constant.QueryParm;
+import com.kuang.config.MyConfig;
 import com.kuang.dto.history.GetHistoryResData;
 import com.kuang.dto.history.PutHistoryReq;
 import com.kuang.dto.history.DeleteHistoryReq;
@@ -11,7 +11,6 @@ import com.kuang.pojo.Record;
 import com.kuang.pojo.Song;
 import com.kuang.service.RecordService;
 import com.kuang.service.SongService;
-import com.kuang.service.UserService;
 import com.kuang.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,9 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class RecordController {
 
     @Autowired
-    @Qualifier("userServiceImpl")
-    private UserService userService;
-
+    private MyConfig myConfig;
     @Autowired
     @Qualifier("songServiceImpl")
     private SongService songService;
@@ -38,7 +35,7 @@ public class RecordController {
     public GeneralRes getHistory(@RequestParam int page, @RequestHeader("Authorization") String token) {
         try {
             int userId = JwtUtil.getUserId(token);
-            GetHistoryResData getHistoryResData = recordService.queryRecordSongByUserIdWithPageAndCount(userId, page, QueryParm.PAGE_SIZE);
+            GetHistoryResData getHistoryResData = recordService.queryRecordSongByUserIdWithPageAndCount(userId, page, myConfig.getRecordNumberPerPage());
             return GeneralRes.GoodRes200(getHistoryResData);
         } catch (JWTDecodeException e) {
             e.printStackTrace();
@@ -67,7 +64,7 @@ public class RecordController {
 
     @PutMapping("user/history/lc")
     @ResponseBody
-    public GeneralRes putHistory(@RequestBody PutHistoryReq putHistoryReq, @RequestHeader("Authorization") String token) throws SqlException {
+    public GeneralRes putHistory(@RequestBody PutHistoryReq putHistoryReq, @RequestHeader("Authorization") String token) {
         int id = putHistoryReq.getId();
         int fav = putHistoryReq.getFav();
         try {

@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 通用的 返回 信息的response参数 的类
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

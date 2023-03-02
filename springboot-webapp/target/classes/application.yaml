@@ -4,11 +4,14 @@ my:
     searchFromTrueKuwoApiOrFalseDatabase: 0
     # 酷我api搜索保存到数据库，0:不保存 1:保存
     addApiSearchResultToDatabase: 1
-    # ""则默认当前项目的songs文件夹，也可以自定义
+    # 生成音乐文件的路径，因为酷我音乐没找到下载API，所以自己生成假的mp3文件作为测试
+    # 填""则默认当前项目的songs文件夹，也可以自定义
     # 例如downloadSongAddress: D:\0PersonalData\TemporaryFile\idea\springboot-webapp\songs
     downloadSongAddress: ""
     # 1:自动生成音乐文件 0:不生成
     generateSongFile: 1
+    # 查询历史记录的每页记录数量
+    recordNumberPerPage: 10
 
 spring:
   datasource:

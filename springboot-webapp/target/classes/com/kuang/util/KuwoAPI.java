@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 用来从酷我搜索音乐，是从自己的浏览器中复制的请求，可能会失效
+ */
 public class KuwoAPI {
 
     public static List<Song> searchSongListApi(String songName, String pn) throws KuwoApiException {

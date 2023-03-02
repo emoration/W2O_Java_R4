@@ -24,10 +24,7 @@ public final class JasyptUtil {
     }
 
     /**
-     * 明文加密
-     *
-     * @param plaintext 明文
-     * @return String
+     * 密码加密
      */
     public static String encrypt(String plaintext) {
 //        log.info("明文字符串为：{}", plaintext);
@@ -38,10 +35,7 @@ public final class JasyptUtil {
     }
 
     /**
-     * 解密
-     *
-     * @param ciphertext 密文
-     * @return String
+     * 解密密码
      */
     public static String decrypt(String ciphertext) {
 //        log.info("密文字符串为：{}", ciphertext);
@@ -55,6 +49,9 @@ public final class JasyptUtil {
         return "";
     }
 
+    /**
+     * 校验密码是否正确
+     */
     public static boolean checkCrypt(String plaintext,String ciphertext) {
         return plaintext.equals(decrypt(ciphertext));
     }

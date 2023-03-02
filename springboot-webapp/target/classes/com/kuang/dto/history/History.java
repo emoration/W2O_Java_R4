@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 作为 包含音乐信息的历史记录 的类
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

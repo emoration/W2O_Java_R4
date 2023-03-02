@@ -1,6 +1,6 @@
 package com.kuang.service;
 
-import com.kuang.constant.QueryParm;
+import com.kuang.config.MyConfig;
 import com.kuang.dto.history.GetHistoryResData;
 import com.kuang.dto.history.History;
 import com.kuang.exception.SqlException;
@@ -22,6 +22,8 @@ public class RecordServiceImpl implements RecordService {
 
     @Autowired
     private RecordMapper recordMapper;
+    @Autowired
+    private MyConfig myConfig;
 
     @Override
     public int addRecord(Record record) throws SqlException {
@@ -96,7 +98,7 @@ public class RecordServiceImpl implements RecordService {
     public GetHistoryResData queryRecordSongByUserIdWithPageAndCount(int userId, int page, int pageSize) throws SqlException {
         List<History> queryList = queryRecordByUserIdWithPage(userId, (page - 1) * pageSize, pageSize);
         Integer count = queryCountByUserId(userId);
-        return new GetHistoryResData(queryList, 1 + (count - 1) / QueryParm.PAGE_SIZE);
+        return new GetHistoryResData(queryList, 1 + (count - 1) /myConfig.getRecordNumberPerPage());
     }
 
     @Override
